@@ -1,6 +1,7 @@
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 
+import models.Product;
 import services.CartService;
 import services.OrderService;
 import services.ProductService;
@@ -26,7 +27,7 @@ public class Main {
                     handleSellerOperation(scan,productService);
                     break;
                 case 2:
-                    handleBuyerOperation(scan,cartService,orderService,productService);
+                    handleBuyerOperation(scan,cartService,productService,orderService);
                     break;
                 case 3:
                     running=false;
@@ -65,8 +66,19 @@ public class Main {
         int choice =scan.nextInt();
         switch (choice){
             case 1:
-                cartService.addItem();
+                productService.displayProducts(); // Display available products to select
+                System.out.print("Enter product ID to add to cart: ");
+                int productId = scan.nextInt();
+                Product product = productService.getProductById(productId);
+                if (product != null) {
+                    System.out.print("Enter quantity: ");
+                    int quantity = scan.nextInt();
+                    cartService.addItem(product, quantity);
+                } else {
+                    System.out.println("Invalid Product ID.");
+                }
                 break;
+
             case 2:
                 orderService.checkout(cartService);
                 break;

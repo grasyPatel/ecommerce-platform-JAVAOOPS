@@ -9,12 +9,36 @@ import java.util.Scanner;
 public class ProductService {
     private List<Product> products1=new ArrayList<>();
 
+    public ProductService() {
+        // Initialize with some dummy products
+        products1.add(new Product(1, "Laptop", 1000.0, 10));
+        products1.add(new Product(2, "Phone", 500.0, 20));
+        products1.add(new Product(3, "Headphones", 50.0, 15));
+    }
+
+    public void displayProducts() {
+        System.out.println("Available Products:");
+        for (Product p : products1) {
+            System.out.println("ID: " + p.getId() + ", Name: " + p.getName() + ", Price: $" + p.getPrice() + ", Stock: " + p.getStock());
+        }
+    }
+
+    public Product getProductById(int id) {
+        for (Product product : products1) {
+            if (product.getId() == id) {
+                return product;
+            }
+        }
+        return null;
+    }
+
     public void addProduct(){
         System.out.println("Adding a new Product........");
         System.out.println("Enter Product Details: ");
         Scanner scan=new Scanner(System.in);
+        System.out.println("Enter the Product ID: ");
 
-        int id=products1.size();
+        int id=scan.nextInt();
         System.out.println("Enter Product name: ");
         String name=scan.next();
         System.out.println("Enter Product Price: ");
@@ -22,7 +46,7 @@ public class ProductService {
         System.out.println("Enter how many Product available: ");
         int stock=scan.nextInt();
 
-        Product product=new Product(id,name,price,stock);
+        Product product=new Product(id+1,name,price,stock);
         products1.add(product);
         System.out.println("Product Added successfully....!");
     }
